@@ -3,412 +3,526 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LedgerPro — Business Accounting</title>
+  <title>LedgerPro — Fabric Business Accounting</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <span class="brand-icon">▣</span>
-      <span class="brand-name">LedgerPro</span>
+  <!-- ============================================================
+       LOGIN SCREEN
+       ============================================================ -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo">
+        <span class="login-icon">▣</span>
+        <span class="login-brand">LedgerPro</span>
+      </div>
+      <div class="login-tagline">FABRIC BUSINESS ACCOUNTING SYSTEM</div>
+      <div class="login-divider"></div>
+
+      <div class="login-field-group">
+        <label class="login-label">BUSINESS PASSWORD</label>
+        <div class="login-input-wrap">
+          <input
+            type="password"
+            id="loginPassword"
+            class="login-input"
+            placeholder="Enter password to continue"
+            autocomplete="off"
+            onkeydown="if(event.key==='Enter') doLogin()"
+          />
+          <button class="login-eye" id="loginEyeBtn" onclick="toggleLoginEye()">◎</button>
+        </div>
+        <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+      </div>
+
+      <button class="login-btn" onclick="doLogin()">UNLOCK DASHBOARD</button>
+      <div class="login-footer">Authorised access only — Zahid Fabric Business</div>
     </div>
-
-    <nav class="sidebar-nav">
-      <div class="nav-section-label">MAIN</div>
-      <a href="#" class="nav-item active" data-section="dashboard">
-        <span class="nav-icon">◈</span> Dashboard
-      </a>
-      <a href="#" class="nav-item" data-section="sales">
-        <span class="nav-icon">↑</span> Sales
-      </a>
-      <a href="#" class="nav-item" data-section="purchases">
-        <span class="nav-icon">↓</span> Purchases
-      </a>
-
-      <div class="nav-section-label">FINANCE</div>
-      <a href="#" class="nav-item" data-section="payments">
-        <span class="nav-icon">⊟</span> Payments
-      </a>
-      <a href="#" class="nav-item" data-section="receipts">
-        <span class="nav-icon">⊞</span> Receipts
-      </a>
-      <a href="#" class="nav-item" data-section="ledger">
-        <span class="nav-icon">≡</span> Ledger
-      </a>
-
-      <div class="nav-section-label">ANALYSIS</div>
-      <a href="#" class="nav-item" data-section="reports">
-        <span class="nav-icon">◧</span> Reports
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="user-info">
-        <div class="user-avatar">AO</div>
-        <div class="user-details">
-          <span class="user-name">Ahmed Omar</span>
-          <span class="user-role">Administrator</span>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN WRAPPER -->
-  <div class="main-wrapper">
-
-    <!-- TOP HEADER -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-        <div class="breadcrumb">
-          <span class="breadcrumb-home">LedgerPro</span>
-          <span class="breadcrumb-sep">/</span>
-          <span class="breadcrumb-current" id="breadcrumbCurrent">Dashboard</span>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="topbar-date" id="topbarDate"></div>
-        <div class="topbar-badge">FY 2025–26</div>
-      </div>
-    </header>
-
-    <!-- CONTENT AREA -->
-    <main class="content-area">
-
-      <!-- ===== DASHBOARD SECTION ===== -->
-      <section class="section active" id="section-dashboard">
-        <div class="section-header">
-          <h1 class="section-title">Dashboard</h1>
-          <p class="section-sub">Business overview — all figures in PKR</p>
-        </div>
-
-        <div class="metric-grid" id="metricGrid"></div>
-
-        <div class="dashboard-lower">
-          <div class="dash-panel">
-            <div class="panel-header">
-              <span class="panel-title">RECENT SALES</span>
-              <button class="btn-link" data-section="sales">View All →</button>
-            </div>
-            <table class="data-table" id="dashSalesTable">
-              <thead>
-                <tr><th>Customer</th><th>Item</th><th>Amount</th><th>Status</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-
-          <div class="dash-panel">
-            <div class="panel-header">
-              <span class="panel-title">RECENT PURCHASES</span>
-              <button class="btn-link" data-section="purchases">View All →</button>
-            </div>
-            <table class="data-table" id="dashPurchasesTable">
-              <thead>
-                <tr><th>Supplier</th><th>Item</th><th>Amount</th><th>Status</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== SALES SECTION ===== -->
-      <section class="section" id="section-sales">
-        <div class="section-header">
-          <h1 class="section-title">Sales</h1>
-          <p class="section-sub">Record and manage all sales transactions</p>
-        </div>
-
-        <div class="form-card">
-          <div class="form-card-header">NEW SALE ENTRY</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Customer Name</label>
-              <input type="text" id="saleCustomer" placeholder="e.g. Al-Amin Traders"/>
-            </div>
-            <div class="form-group">
-              <label>Item Description</label>
-              <input type="text" id="saleItem" placeholder="e.g. Cotton Fabric 50m"/>
-            </div>
-            <div class="form-group">
-              <label>Amount (PKR)</label>
-              <input type="number" id="saleAmount" placeholder="0.00"/>
-            </div>
-            <div class="form-group">
-              <label>Date</label>
-              <input type="date" id="saleDate"/>
-            </div>
-            <div class="form-group">
-              <label>Payment Status</label>
-              <select id="saleStatus">
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
-              </select>
-            </div>
-            <div class="form-group form-actions">
-              <button class="btn-primary" onclick="addSale()">+ ADD SALE</button>
-              <button class="btn-secondary" onclick="clearForm('sale')">CLEAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-card-header">
-            <span>ALL SALES RECORDS</span>
-            <span class="table-count" id="salesCount">0 entries</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table" id="salesTable">
-              <thead>
-                <tr>
-                  <th>#</th><th>Customer</th><th>Item</th>
-                  <th>Amount (PKR)</th><th>Date</th><th>Status</th><th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== PURCHASES SECTION ===== -->
-      <section class="section" id="section-purchases">
-        <div class="section-header">
-          <h1 class="section-title">Purchases</h1>
-          <p class="section-sub">Track all supplier purchases and inventory costs</p>
-        </div>
-
-        <div class="form-card">
-          <div class="form-card-header">NEW PURCHASE ENTRY</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Supplier Name</label>
-              <input type="text" id="purchaseSupplier" placeholder="e.g. Karachi Wholesale Co."/>
-            </div>
-            <div class="form-group">
-              <label>Item Description</label>
-              <input type="text" id="purchaseItem" placeholder="e.g. Raw Material 100kg"/>
-            </div>
-            <div class="form-group">
-              <label>Amount (PKR)</label>
-              <input type="number" id="purchaseAmount" placeholder="0.00"/>
-            </div>
-            <div class="form-group">
-              <label>Date</label>
-              <input type="date" id="purchaseDate"/>
-            </div>
-            <div class="form-group">
-              <label>Payment Status</label>
-              <select id="purchaseStatus">
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
-              </select>
-            </div>
-            <div class="form-group form-actions">
-              <button class="btn-primary" onclick="addPurchase()">+ ADD PURCHASE</button>
-              <button class="btn-secondary" onclick="clearForm('purchase')">CLEAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-card-header">
-            <span>ALL PURCHASE RECORDS</span>
-            <span class="table-count" id="purchasesCount">0 entries</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table" id="purchasesTable">
-              <thead>
-                <tr>
-                  <th>#</th><th>Supplier</th><th>Item</th>
-                  <th>Amount (PKR)</th><th>Date</th><th>Status</th><th>Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== PAYMENTS SECTION ===== -->
-      <section class="section" id="section-payments">
-        <div class="section-header">
-          <h1 class="section-title">Payments</h1>
-          <p class="section-sub">Record outgoing payments made by the business</p>
-        </div>
-
-        <div class="form-card">
-          <div class="form-card-header">NEW PAYMENT ENTRY</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Payment To</label>
-              <input type="text" id="paymentTo" placeholder="e.g. Supplier / Utility"/>
-            </div>
-            <div class="form-group">
-              <label>Amount (PKR)</label>
-              <input type="number" id="paymentAmount" placeholder="0.00"/>
-            </div>
-            <div class="form-group">
-              <label>Purpose</label>
-              <input type="text" id="paymentPurpose" placeholder="e.g. Invoice #1234 Settlement"/>
-            </div>
-            <div class="form-group">
-              <label>Date</label>
-              <input type="date" id="paymentDate"/>
-            </div>
-            <div class="form-group form-actions">
-              <button class="btn-primary" onclick="addPayment()">+ ADD PAYMENT</button>
-              <button class="btn-secondary" onclick="clearForm('payment')">CLEAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-card-header">
-            <span>ALL PAYMENT RECORDS</span>
-            <span class="table-count" id="paymentsCount">0 entries</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table" id="paymentsTable">
-              <thead>
-                <tr><th>#</th><th>Payment To</th><th>Purpose</th><th>Amount (PKR)</th><th>Date</th><th>Action</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== RECEIPTS SECTION ===== -->
-      <section class="section" id="section-receipts">
-        <div class="section-header">
-          <h1 class="section-title">Receipts</h1>
-          <p class="section-sub">Record all incoming money received by the business</p>
-        </div>
-
-        <div class="form-card">
-          <div class="form-card-header">NEW RECEIPT ENTRY</div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label>Received From</label>
-              <input type="text" id="receiptFrom" placeholder="e.g. Customer / Debtor"/>
-            </div>
-            <div class="form-group">
-              <label>Amount (PKR)</label>
-              <input type="number" id="receiptAmount" placeholder="0.00"/>
-            </div>
-            <div class="form-group">
-              <label>Purpose</label>
-              <input type="text" id="receiptPurpose" placeholder="e.g. Invoice #5678 Payment"/>
-            </div>
-            <div class="form-group">
-              <label>Date</label>
-              <input type="date" id="receiptDate"/>
-            </div>
-            <div class="form-group form-actions">
-              <button class="btn-primary" onclick="addReceipt()">+ ADD RECEIPT</button>
-              <button class="btn-secondary" onclick="clearForm('receipt')">CLEAR</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-card">
-          <div class="table-card-header">
-            <span>ALL RECEIPT RECORDS</span>
-            <span class="table-count" id="receiptsCount">0 entries</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table" id="receiptsTable">
-              <thead>
-                <tr><th>#</th><th>Received From</th><th>Purpose</th><th>Amount (PKR)</th><th>Date</th><th>Action</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== LEDGER SECTION ===== -->
-      <section class="section" id="section-ledger">
-        <div class="section-header">
-          <h1 class="section-title">Ledger</h1>
-          <p class="section-sub">General ledger — debits, credits and running balances</p>
-        </div>
-
-        <div class="ledger-summary" id="ledgerSummary"></div>
-
-        <div class="table-card">
-          <div class="table-card-header">
-            <span>GENERAL LEDGER</span>
-            <span class="table-count" id="ledgerCount">0 entries</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table ledger-table" id="ledgerTable">
-              <thead>
-                <tr>
-                  <th>#</th><th>Date</th><th>Name / Party</th>
-                  <th>Description</th><th>Type</th>
-                  <th class="col-debit">Debit (PKR)</th>
-                  <th class="col-credit">Credit (PKR)</th>
-                  <th>Balance (PKR)</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===== REPORTS SECTION ===== -->
-      <section class="section" id="section-reports">
-        <div class="section-header">
-          <h1 class="section-title">Reports</h1>
-          <p class="section-sub">Financial summary and profit analysis</p>
-        </div>
-
-        <div class="reports-grid" id="reportsGrid"></div>
-
-        <div class="reports-lower">
-          <div class="report-panel">
-            <div class="panel-header">
-              <span class="panel-title">INCOME STATEMENT</span>
-            </div>
-            <div class="income-statement" id="incomeStatement"></div>
-          </div>
-
-          <div class="report-panel">
-            <div class="panel-header">
-              <span class="panel-title">PAYMENT vs RECEIPT SUMMARY</span>
-            </div>
-            <div class="cashflow-visual" id="cashflowVisual"></div>
-          </div>
-        </div>
-
-        <div class="table-card" style="margin-top:24px">
-          <div class="table-card-header">
-            <span>MONTHLY BREAKDOWN</span>
-          </div>
-          <div class="table-scroll">
-            <table class="data-table" id="monthlyTable">
-              <thead>
-                <tr><th>Month</th><th>Sales (PKR)</th><th>Purchases (PKR)</th><th>Receipts (PKR)</th><th>Payments (PKR)</th><th>Net (PKR)</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-    </main>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div class="toast" id="toast"></div>
+  <!-- ============================================================
+       APP SHELL (hidden until login)
+       ============================================================ -->
+  <div class="app-shell" id="appShell" style="display:none">
 
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon">▣</span>
+        <span class="brand-name">LedgerPro</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">MAIN</div>
+        <a href="#" class="nav-item active" data-section="dashboard">
+          <span class="nav-icon">◈</span> Dashboard
+        </a>
+        <a href="#" class="nav-item" data-section="sales">
+          <span class="nav-icon">↑</span> Sales
+        </a>
+        <a href="#" class="nav-item" data-section="purchases">
+          <span class="nav-icon">↓</span> Purchases
+        </a>
+
+        <div class="nav-section-label">FINANCE</div>
+        <a href="#" class="nav-item" data-section="payments">
+          <span class="nav-icon">⊟</span> Payments
+        </a>
+        <a href="#" class="nav-item" data-section="receipts">
+          <span class="nav-icon">⊞</span> Receipts
+        </a>
+        <a href="#" class="nav-item" data-section="ledger">
+          <span class="nav-icon">≡</span> Ledger
+        </a>
+
+        <div class="nav-section-label">ANALYSIS</div>
+        <a href="#" class="nav-item" data-section="inventory">
+          <span class="nav-icon">▤</span> Inventory
+        </a>
+        <a href="#" class="nav-item" data-section="reports">
+          <span class="nav-icon">◧</span> Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">ZA</div>
+          <div class="user-details">
+            <span class="user-name">Zahid</span>
+            <span class="user-role">Owner</span>
+          </div>
+          <button class="logout-btn" onclick="doLogout()" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+          <div class="breadcrumb">
+            <span class="breadcrumb-home">LedgerPro</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current" id="breadcrumbCurrent">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-date" id="topbarDate"></div>
+          <div class="topbar-badge">FY 2025–26</div>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- ===== DASHBOARD ===== -->
+        <section class="section active" id="section-dashboard">
+          <div class="section-header">
+            <h1 class="section-title">Dashboard</h1>
+            <p class="section-sub">Business overview — all figures in PKR</p>
+          </div>
+
+          <div class="metric-grid" id="metricGrid"></div>
+          <div class="fabric-insight-bar" id="fabricInsightBar"></div>
+
+          <div class="dashboard-lower">
+            <div class="dash-panel">
+              <div class="panel-header">
+                <span class="panel-title">RECENT SALES</span>
+                <button class="btn-link" data-section="sales">View All →</button>
+              </div>
+              <table class="data-table" id="dashSalesTable">
+                <thead><tr><th>Customer</th><th>Fabric</th><th>Meters</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="dash-panel">
+              <div class="panel-header">
+                <span class="panel-title">RECENT PURCHASES</span>
+                <button class="btn-link" data-section="purchases">View All →</button>
+              </div>
+              <table class="data-table" id="dashPurchasesTable">
+                <thead><tr><th>Supplier</th><th>Fabric</th><th>Meters</th><th>Amount</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SALES ===== -->
+        <section class="section" id="section-sales">
+          <div class="section-header">
+            <h1 class="section-title">Sales</h1>
+            <p class="section-sub">Record all fabric sales — quantity in meters</p>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card-header">NEW SALE ENTRY</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="saleCustomer" placeholder="e.g. Al-Amin Traders"/>
+              </div>
+              <div class="form-group">
+                <label>Fabric Type</label>
+                <select id="saleFabric">
+                  <option value="">-- Select Fabric --</option>
+                  <option>Cotton</option><option>Polyester</option><option>Silk</option>
+                  <option>Denim</option><option>Chiffon</option><option>Linen</option>
+                  <option>Lawn</option><option>Georgette</option><option>Velvet</option>
+                  <option>Fleece</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Item / Description</label>
+                <input type="text" id="saleItem" placeholder="e.g. Premium Cotton Shirting"/>
+              </div>
+              <div class="form-group">
+                <label>Quality Grade</label>
+                <select id="saleQuality">
+                  <option>A+ Premium</option><option>A Standard</option>
+                  <option>B Grade</option><option>C Export</option><option>Seconds</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Meters (m)</label>
+                <input type="number" id="saleMeters" placeholder="0" min="0" oninput="calcSaleAmount()"/>
+              </div>
+              <div class="form-group">
+                <label>Price / Meter (PKR)</label>
+                <input type="number" id="salePricePerMeter" placeholder="0.00" min="0" oninput="calcSaleAmount()"/>
+              </div>
+              <div class="form-group">
+                <label>Total Amount (PKR) <span class="auto-calc-tag">AUTO</span></label>
+                <input type="number" id="saleAmount" placeholder="0.00" readonly class="input-readonly"/>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="saleDate"/>
+              </div>
+              <div class="form-group">
+                <label>Payment Status</label>
+                <select id="saleStatus">
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Partial">Partial</option>
+                </select>
+              </div>
+              <div class="form-group form-actions">
+                <button class="btn-primary" onclick="addSale()">+ ADD SALE</button>
+                <button class="btn-secondary" onclick="clearForm('sale')">CLEAR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>ALL SALES RECORDS</span>
+              <div class="header-controls">
+                <select class="filter-select" id="salesFabricFilter" onchange="renderSalesTable()">
+                  <option value="">All Fabrics</option>
+                  <option>Cotton</option><option>Polyester</option><option>Silk</option>
+                  <option>Denim</option><option>Chiffon</option><option>Linen</option>
+                  <option>Lawn</option><option>Georgette</option><option>Velvet</option>
+                  <option>Fleece</option><option>Other</option>
+                </select>
+                <span class="table-count" id="salesCount">0 entries</span>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="salesTable">
+                <thead>
+                  <tr>
+                    <th>#</th><th>Customer</th><th>Fabric</th><th>Item</th><th>Quality</th>
+                    <th>Meters</th><th>Rate/m</th><th>Amount (PKR)</th>
+                    <th>Date</th><th>Status</th><th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== PURCHASES ===== -->
+        <section class="section" id="section-purchases">
+          <div class="section-header">
+            <h1 class="section-title">Purchases</h1>
+            <p class="section-sub">Track all fabric supplier purchases — quantity in meters</p>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card-header">NEW PURCHASE ENTRY</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Supplier Name</label>
+                <input type="text" id="purchaseSupplier" placeholder="e.g. Karachi Wholesale Co."/>
+              </div>
+              <div class="form-group">
+                <label>Fabric Type</label>
+                <select id="purchaseFabric">
+                  <option value="">-- Select Fabric --</option>
+                  <option>Cotton</option><option>Polyester</option><option>Silk</option>
+                  <option>Denim</option><option>Chiffon</option><option>Linen</option>
+                  <option>Lawn</option><option>Georgette</option><option>Velvet</option>
+                  <option>Fleece</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Item / Description</label>
+                <input type="text" id="purchaseItem" placeholder="e.g. Raw Cotton Shirting"/>
+              </div>
+              <div class="form-group">
+                <label>Quality Grade</label>
+                <select id="purchaseQuality">
+                  <option>A+ Premium</option><option>A Standard</option>
+                  <option>B Grade</option><option>C Export</option><option>Seconds</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Meters (m)</label>
+                <input type="number" id="purchaseMeters" placeholder="0" min="0" oninput="calcPurchaseAmount()"/>
+              </div>
+              <div class="form-group">
+                <label>Price / Meter (PKR)</label>
+                <input type="number" id="purchasePricePerMeter" placeholder="0.00" min="0" oninput="calcPurchaseAmount()"/>
+              </div>
+              <div class="form-group">
+                <label>Total Amount (PKR) <span class="auto-calc-tag">AUTO</span></label>
+                <input type="number" id="purchaseAmount" placeholder="0.00" readonly class="input-readonly"/>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="purchaseDate"/>
+              </div>
+              <div class="form-group">
+                <label>Payment Status</label>
+                <select id="purchaseStatus">
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Partial">Partial</option>
+                </select>
+              </div>
+              <div class="form-group form-actions">
+                <button class="btn-primary" onclick="addPurchase()">+ ADD PURCHASE</button>
+                <button class="btn-secondary" onclick="clearForm('purchase')">CLEAR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>ALL PURCHASE RECORDS</span>
+              <div class="header-controls">
+                <select class="filter-select" id="purchasesFabricFilter" onchange="renderPurchasesTable()">
+                  <option value="">All Fabrics</option>
+                  <option>Cotton</option><option>Polyester</option><option>Silk</option>
+                  <option>Denim</option><option>Chiffon</option><option>Linen</option>
+                  <option>Lawn</option><option>Georgette</option><option>Velvet</option>
+                  <option>Fleece</option><option>Other</option>
+                </select>
+                <span class="table-count" id="purchasesCount">0 entries</span>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="purchasesTable">
+                <thead>
+                  <tr>
+                    <th>#</th><th>Supplier</th><th>Fabric</th><th>Item</th><th>Quality</th>
+                    <th>Meters</th><th>Rate/m</th><th>Amount (PKR)</th>
+                    <th>Date</th><th>Status</th><th>Action</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== PAYMENTS ===== -->
+        <section class="section" id="section-payments">
+          <div class="section-header">
+            <h1 class="section-title">Payments</h1>
+            <p class="section-sub">Record outgoing payments made by the business</p>
+          </div>
+          <div class="form-card">
+            <div class="form-card-header">NEW PAYMENT ENTRY</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Payment To</label>
+                <input type="text" id="paymentTo" placeholder="e.g. Supplier / Utility"/>
+              </div>
+              <div class="form-group">
+                <label>Amount (PKR)</label>
+                <input type="number" id="paymentAmount" placeholder="0.00"/>
+              </div>
+              <div class="form-group">
+                <label>Purpose</label>
+                <input type="text" id="paymentPurpose" placeholder="e.g. Invoice #1234 Settlement"/>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="paymentDate"/>
+              </div>
+              <div class="form-group form-actions">
+                <button class="btn-primary" onclick="addPayment()">+ ADD PAYMENT</button>
+                <button class="btn-secondary" onclick="clearForm('payment')">CLEAR</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>ALL PAYMENT RECORDS</span>
+              <span class="table-count" id="paymentsCount">0 entries</span>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="paymentsTable">
+                <thead>
+                  <tr><th>#</th><th>Payment To</th><th>Purpose</th><th>Amount (PKR)</th><th>Date</th><th>Action</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== RECEIPTS ===== -->
+        <section class="section" id="section-receipts">
+          <div class="section-header">
+            <h1 class="section-title">Receipts</h1>
+            <p class="section-sub">Record all incoming payments received</p>
+          </div>
+          <div class="form-card">
+            <div class="form-card-header">NEW RECEIPT ENTRY</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Received From</label>
+                <input type="text" id="receiptFrom" placeholder="e.g. Customer / Debtor"/>
+              </div>
+              <div class="form-group">
+                <label>Amount (PKR)</label>
+                <input type="number" id="receiptAmount" placeholder="0.00"/>
+              </div>
+              <div class="form-group">
+                <label>Purpose</label>
+                <input type="text" id="receiptPurpose" placeholder="e.g. Invoice #5678 Payment"/>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="receiptDate"/>
+              </div>
+              <div class="form-group form-actions">
+                <button class="btn-primary" onclick="addReceipt()">+ ADD RECEIPT</button>
+                <button class="btn-secondary" onclick="clearForm('receipt')">CLEAR</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>ALL RECEIPT RECORDS</span>
+              <span class="table-count" id="receiptsCount">0 entries</span>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="receiptsTable">
+                <thead>
+                  <tr><th>#</th><th>Received From</th><th>Purpose</th><th>Amount (PKR)</th><th>Date</th><th>Action</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== LEDGER ===== -->
+        <section class="section" id="section-ledger">
+          <div class="section-header">
+            <h1 class="section-title">Ledger</h1>
+            <p class="section-sub">General ledger — debits, credits and running balances</p>
+          </div>
+          <div class="ledger-summary" id="ledgerSummary"></div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span>GENERAL LEDGER</span>
+              <span class="table-count" id="ledgerCount">0 entries</span>
+            </div>
+            <div class="table-scroll">
+              <table class="data-table" id="ledgerTable">
+                <thead>
+                  <tr>
+                    <th>#</th><th>Date</th><th>Name / Party</th><th>Description</th><th>Type</th>
+                    <th class="col-debit">Debit (PKR)</th>
+                    <th class="col-credit">Credit (PKR)</th>
+                    <th>Balance (PKR)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== INVENTORY ===== -->
+        <section class="section" id="section-inventory">
+          <div class="section-header">
+            <h1 class="section-title">Fabric Inventory</h1>
+            <p class="section-sub">Meters purchased vs sold — live stock position per fabric type</p>
+          </div>
+          <div class="inventory-grid" id="inventoryGrid"></div>
+          <div class="table-card" style="margin-top:24px">
+            <div class="table-card-header"><span>FABRIC STOCK SUMMARY</span></div>
+            <div class="table-scroll">
+              <table class="data-table" id="inventoryTable">
+                <thead>
+                  <tr>
+                    <th>Fabric Type</th>
+                    <th>Purchased (m)</th><th>Sold (m)</th><th>Stock Left (m)</th>
+                    <th>Buy Avg (Rs/m)</th><th>Sell Avg (Rs/m)</th>
+                    <th>Margin (Rs/m)</th><th>Status</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== REPORTS ===== -->
+        <section class="section" id="section-reports">
+          <div class="section-header">
+            <h1 class="section-title">Reports</h1>
+            <p class="section-sub">Financial summary and fabric profit analysis</p>
+          </div>
+          <div class="reports-grid" id="reportsGrid"></div>
+          <div class="reports-lower">
+            <div class="report-panel">
+              <div class="panel-header"><span class="panel-title">INCOME STATEMENT</span></div>
+              <div class="income-statement" id="incomeStatement"></div>
+            </div>
+            <div class="report-panel">
+              <div class="panel-header"><span class="panel-title">CASH FLOW SUMMARY</span></div>
+              <div class="cashflow-visual" id="cashflowVisual"></div>
+            </div>
+          </div>
+          <div class="table-card" style="margin-top:24px">
+            <div class="table-card-header"><span>MONTHLY BREAKDOWN</span></div>
+            <div class="table-scroll">
+              <table class="data-table" id="monthlyTable">
+                <thead>
+                  <tr><th>Month</th><th>Sales (PKR)</th><th>Purchases (PKR)</th><th>Receipts (PKR)</th><th>Payments (PKR)</th><th>Net (PKR)</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div><!-- end app-shell -->
+
+  <div class="toast" id="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
