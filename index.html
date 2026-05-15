@@ -9,9 +9,7 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       LOGIN SCREEN
-       ============================================================ -->
+  <!-- LOGIN SCREEN -->
   <div class="login-screen" id="loginScreen">
     <div class="login-box">
       <div class="login-logo">
@@ -20,31 +18,21 @@
       </div>
       <div class="login-tagline">FABRIC BUSINESS ACCOUNTING SYSTEM</div>
       <div class="login-divider"></div>
-
       <div class="login-field-group">
         <label class="login-label">BUSINESS PASSWORD</label>
         <div class="login-input-wrap">
-          <input
-            type="password"
-            id="loginPassword"
-            class="login-input"
-            placeholder="Enter password to continue"
-            autocomplete="off"
-            onkeydown="if(event.key==='Enter') doLogin()"
-          />
+          <input type="password" id="loginPassword" class="login-input" placeholder="Enter password to continue"
+            autocomplete="off" onkeydown="if(event.key==='Enter') doLogin()"/>
           <button class="login-eye" id="loginEyeBtn" onclick="toggleLoginEye()">◎</button>
         </div>
         <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
       </div>
-
       <button class="login-btn" onclick="doLogin()">UNLOCK DASHBOARD</button>
       <div class="login-footer">Authorised access only — Zahid Fabric Business</div>
     </div>
   </div>
 
-  <!-- ============================================================
-       APP SHELL (hidden until login)
-       ============================================================ -->
+  <!-- APP SHELL -->
   <div class="app-shell" id="appShell" style="display:none">
 
     <!-- SIDEBAR -->
@@ -53,39 +41,21 @@
         <span class="brand-icon">▣</span>
         <span class="brand-name">LedgerPro</span>
       </div>
-
       <nav class="sidebar-nav">
         <div class="nav-section-label">MAIN</div>
-        <a href="#" class="nav-item active" data-section="dashboard">
-          <span class="nav-icon">◈</span> Dashboard
-        </a>
-        <a href="#" class="nav-item" data-section="sales">
-          <span class="nav-icon">↑</span> Sales
-        </a>
-        <a href="#" class="nav-item" data-section="purchases">
-          <span class="nav-icon">↓</span> Purchases
-        </a>
-
+        <a href="#" class="nav-item active" data-section="dashboard"><span class="nav-icon">◈</span> Dashboard</a>
+        <a href="#" class="nav-item" data-section="sales"><span class="nav-icon">↑</span> Sales</a>
+        <a href="#" class="nav-item" data-section="purchases"><span class="nav-icon">↓</span> Purchases</a>
         <div class="nav-section-label">FINANCE</div>
-        <a href="#" class="nav-item" data-section="payments">
-          <span class="nav-icon">⊟</span> Payments
-        </a>
-        <a href="#" class="nav-item" data-section="receipts">
-          <span class="nav-icon">⊞</span> Receipts
-        </a>
-        <a href="#" class="nav-item" data-section="ledger">
-          <span class="nav-icon">≡</span> Ledger
-        </a>
-
+        <a href="#" class="nav-item" data-section="payments"><span class="nav-icon">⊟</span> Payments</a>
+        <a href="#" class="nav-item" data-section="receipts"><span class="nav-icon">⊞</span> Receipts</a>
+        <a href="#" class="nav-item" data-section="ledger"><span class="nav-icon">≡</span> General Ledger</a>
+        <a href="#" class="nav-item" data-section="party-ledger"><span class="nav-icon">◉</span> Party Ledgers</a>
+        <a href="#" class="nav-item" data-section="trial-balance"><span class="nav-icon">⊜</span> Trial Balance</a>
         <div class="nav-section-label">ANALYSIS</div>
-        <a href="#" class="nav-item" data-section="inventory">
-          <span class="nav-icon">▤</span> Inventory
-        </a>
-        <a href="#" class="nav-item" data-section="reports">
-          <span class="nav-icon">◧</span> Reports
-        </a>
+        <a href="#" class="nav-item" data-section="inventory"><span class="nav-icon">▤</span> Inventory</a>
+        <a href="#" class="nav-item" data-section="reports"><span class="nav-icon">◧</span> Reports</a>
       </nav>
-
       <div class="sidebar-footer">
         <div class="user-info">
           <div class="user-avatar">ZA</div>
@@ -123,10 +93,8 @@
             <h1 class="section-title">Dashboard</h1>
             <p class="section-sub">Business overview — all figures in PKR</p>
           </div>
-
           <div class="metric-grid" id="metricGrid"></div>
           <div class="fabric-insight-bar" id="fabricInsightBar"></div>
-
           <div class="dashboard-lower">
             <div class="dash-panel">
               <div class="panel-header">
@@ -144,7 +112,7 @@
                 <button class="btn-link" data-section="purchases">View All →</button>
               </div>
               <table class="data-table" id="dashPurchasesTable">
-                <thead><tr><th>Supplier</th><th>Fabric</th><th>Meters</th><th>Amount</th><th>Status</th></tr></thead>
+                <thead><tr><th>Supplier</th><th>Fabric</th><th>Meters</th><th>Amount</th><th>Due</th></tr></thead>
                 <tbody></tbody>
               </table>
             </div>
@@ -157,16 +125,15 @@
             <h1 class="section-title">Sales</h1>
             <p class="section-sub">Record all fabric sales — quantity in meters</p>
           </div>
-
           <div class="form-card">
             <div class="form-card-header">NEW SALE ENTRY</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>Customer Name</label>
+                <label>Customer Name <span class="req">*</span></label>
                 <input type="text" id="saleCustomer" placeholder="e.g. Al-Amin Traders"/>
               </div>
               <div class="form-group">
-                <label>Fabric Type</label>
+                <label>Fabric Type <span class="req">*</span></label>
                 <select id="saleFabric">
                   <option value="">-- Select Fabric --</option>
                   <option>Cotton</option><option>Polyester</option><option>Silk</option>
@@ -175,23 +142,21 @@
                   <option>Fleece</option><option>Other</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label>Item / Description</label>
-                <input type="text" id="saleItem" placeholder="e.g. Premium Cotton Shirting"/>
+              <div class="form-group" style="grid-column:span 2">
+                <label>Item / Description <span class="field-hint">format: Name / Width,inch</span> <span class="req">*</span></label>
+                <div class="item-input-wrap" id="saleItemWrap">
+                  <input type="text" id="saleItem" placeholder="e.g. Premium Cotton / 58,inch" autocomplete="off"
+                    oninput="handleItemInput('sale')" onkeydown="handleItemKey(event,'sale')" onfocus="openItemDropdown('sale')" onblur="closeItemDropdown('sale', 300)"/>
+                  <div class="item-dropdown" id="saleItemDropdown"></div>
+                </div>
+                <div class="item-format-hint">Type item name, then <span>/ width,inch</span> — e.g. <span>Premium Cotton / 58,inch</span></div>
               </div>
               <div class="form-group">
-                <label>Quality Grade</label>
-                <select id="saleQuality">
-                  <option>A+ Premium</option><option>A Standard</option>
-                  <option>B Grade</option><option>C Export</option><option>Seconds</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Meters (m)</label>
+                <label>Meters (m) <span class="req">*</span></label>
                 <input type="number" id="saleMeters" placeholder="0" min="0" oninput="calcSaleAmount()"/>
               </div>
               <div class="form-group">
-                <label>Price / Meter (PKR)</label>
+                <label>Price / Meter (PKR) <span class="req">*</span></label>
                 <input type="number" id="salePricePerMeter" placeholder="0.00" min="0" oninput="calcSaleAmount()"/>
               </div>
               <div class="form-group">
@@ -199,16 +164,15 @@
                 <input type="number" id="saleAmount" placeholder="0.00" readonly class="input-readonly"/>
               </div>
               <div class="form-group">
-                <label>Date</label>
+                <label>Date <span class="req">*</span></label>
                 <input type="date" id="saleDate"/>
               </div>
               <div class="form-group">
-                <label>Payment Status</label>
-                <select id="saleStatus">
-                  <option value="Paid">Paid</option>
-                  <option value="Unpaid">Unpaid</option>
-                  <option value="Partial">Partial</option>
-                </select>
+                <label>Payment Terms <span class="field-hint">(days to pay)</span></label>
+                <div class="payment-terms-wrap">
+                  <input type="number" id="saleTerms" placeholder="30" min="0" max="365"/>
+                  <span class="payment-terms-suffix">days</span>
+                </div>
               </div>
               <div class="form-group form-actions">
                 <button class="btn-primary" onclick="addSale()">+ ADD SALE</button>
@@ -216,7 +180,6 @@
               </div>
             </div>
           </div>
-
           <div class="table-card">
             <div class="table-card-header">
               <span>ALL SALES RECORDS</span>
@@ -228,6 +191,14 @@
                   <option>Lawn</option><option>Georgette</option><option>Velvet</option>
                   <option>Fleece</option><option>Other</option>
                 </select>
+                <select class="filter-select" id="salesSortField" onchange="renderSalesTable()">
+                  <option value="date-desc">Date ↓</option>
+                  <option value="date-asc">Date ↑</option>
+                  <option value="customer-asc">Customer A–Z</option>
+                  <option value="customer-desc">Customer Z–A</option>
+                  <option value="amount-desc">Amount ↓</option>
+                  <option value="amount-asc">Amount ↑</option>
+                </select>
                 <span class="table-count" id="salesCount">0 entries</span>
               </div>
             </div>
@@ -235,9 +206,9 @@
               <table class="data-table" id="salesTable">
                 <thead>
                   <tr>
-                    <th>#</th><th>Customer</th><th>Fabric</th><th>Item</th><th>Quality</th>
+                    <th>#</th><th>Customer</th><th>Fabric</th><th>Item</th>
                     <th>Meters</th><th>Rate/m</th><th>Amount (PKR)</th>
-                    <th>Date</th><th>Status</th><th>Action</th>
+                    <th>Date</th><th>Due / Terms</th><th>Invoice</th><th>Details</th><th>Action</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -252,16 +223,15 @@
             <h1 class="section-title">Purchases</h1>
             <p class="section-sub">Track all fabric supplier purchases — quantity in meters</p>
           </div>
-
           <div class="form-card">
             <div class="form-card-header">NEW PURCHASE ENTRY</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>Supplier Name</label>
+                <label>Supplier Name <span class="req">*</span></label>
                 <input type="text" id="purchaseSupplier" placeholder="e.g. Karachi Wholesale Co."/>
               </div>
               <div class="form-group">
-                <label>Fabric Type</label>
+                <label>Fabric Type <span class="req">*</span></label>
                 <select id="purchaseFabric">
                   <option value="">-- Select Fabric --</option>
                   <option>Cotton</option><option>Polyester</option><option>Silk</option>
@@ -270,9 +240,14 @@
                   <option>Fleece</option><option>Other</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label>Item / Description</label>
-                <input type="text" id="purchaseItem" placeholder="e.g. Raw Cotton Shirting"/>
+              <div class="form-group" style="grid-column:span 2">
+                <label>Item / Description <span class="field-hint">format: Name / Width,inch</span> <span class="req">*</span></label>
+                <div class="item-input-wrap" id="purchaseItemWrap">
+                  <input type="text" id="purchaseItem" placeholder="e.g. Raw Cotton / 58,inch" autocomplete="off"
+                    oninput="handleItemInput('purchase')" onkeydown="handleItemKey(event,'purchase')" onfocus="openItemDropdown('purchase')" onblur="closeItemDropdown('purchase', 300)"/>
+                  <div class="item-dropdown" id="purchaseItemDropdown"></div>
+                </div>
+                <div class="item-format-hint">Type item name, then <span>/ width,inch</span> — e.g. <span>Raw Cotton / 58,inch</span></div>
               </div>
               <div class="form-group">
                 <label>Quality Grade</label>
@@ -282,11 +257,11 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Meters (m)</label>
+                <label>Meters (m) <span class="req">*</span></label>
                 <input type="number" id="purchaseMeters" placeholder="0" min="0" oninput="calcPurchaseAmount()"/>
               </div>
               <div class="form-group">
-                <label>Price / Meter (PKR)</label>
+                <label>Price / Meter (PKR) <span class="req">*</span></label>
                 <input type="number" id="purchasePricePerMeter" placeholder="0.00" min="0" oninput="calcPurchaseAmount()"/>
               </div>
               <div class="form-group">
@@ -294,14 +269,21 @@
                 <input type="number" id="purchaseAmount" placeholder="0.00" readonly class="input-readonly"/>
               </div>
               <div class="form-group">
-                <label>Date</label>
+                <label>Date <span class="req">*</span></label>
                 <input type="date" id="purchaseDate"/>
+              </div>
+              <div class="form-group">
+                <label>Payment Terms <span class="field-hint">(days to pay)</span></label>
+                <div class="payment-terms-wrap">
+                  <input type="number" id="purchaseTerms" placeholder="30" min="0" max="365"/>
+                  <span class="payment-terms-suffix">days</span>
+                </div>
               </div>
               <div class="form-group">
                 <label>Payment Status</label>
                 <select id="purchaseStatus">
-                  <option value="Paid">Paid</option>
                   <option value="Unpaid">Unpaid</option>
+                  <option value="Paid">Paid</option>
                   <option value="Partial">Partial</option>
                 </select>
               </div>
@@ -311,7 +293,6 @@
               </div>
             </div>
           </div>
-
           <div class="table-card">
             <div class="table-card-header">
               <span>ALL PURCHASE RECORDS</span>
@@ -323,6 +304,14 @@
                   <option>Lawn</option><option>Georgette</option><option>Velvet</option>
                   <option>Fleece</option><option>Other</option>
                 </select>
+                <select class="filter-select" id="purchasesSortField" onchange="renderPurchasesTable()">
+                  <option value="date-desc">Date ↓</option>
+                  <option value="date-asc">Date ↑</option>
+                  <option value="supplier-asc">Supplier A–Z</option>
+                  <option value="supplier-desc">Supplier Z–A</option>
+                  <option value="amount-desc">Amount ↓</option>
+                  <option value="amount-asc">Amount ↑</option>
+                </select>
                 <span class="table-count" id="purchasesCount">0 entries</span>
               </div>
             </div>
@@ -332,7 +321,7 @@
                   <tr>
                     <th>#</th><th>Supplier</th><th>Fabric</th><th>Item</th><th>Quality</th>
                     <th>Meters</th><th>Rate/m</th><th>Amount (PKR)</th>
-                    <th>Date</th><th>Status</th><th>Action</th>
+                    <th>Date</th><th>Due / Terms</th><th>Status</th><th>Details</th><th>Action</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -351,19 +340,19 @@
             <div class="form-card-header">NEW PAYMENT ENTRY</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>Payment To</label>
+                <label>Payment To <span class="req">*</span></label>
                 <input type="text" id="paymentTo" placeholder="e.g. Supplier / Utility"/>
               </div>
               <div class="form-group">
-                <label>Amount (PKR)</label>
+                <label>Amount (PKR) <span class="req">*</span></label>
                 <input type="number" id="paymentAmount" placeholder="0.00"/>
               </div>
               <div class="form-group">
-                <label>Purpose</label>
+                <label>Purpose <span class="req">*</span></label>
                 <input type="text" id="paymentPurpose" placeholder="e.g. Invoice #1234 Settlement"/>
               </div>
               <div class="form-group">
-                <label>Date</label>
+                <label>Date <span class="req">*</span></label>
                 <input type="date" id="paymentDate"/>
               </div>
               <div class="form-group form-actions">
@@ -375,7 +364,15 @@
           <div class="table-card">
             <div class="table-card-header">
               <span>ALL PAYMENT RECORDS</span>
-              <span class="table-count" id="paymentsCount">0 entries</span>
+              <div class="header-controls">
+                <select class="filter-select" id="paymentsSortField" onchange="renderPaymentsTable()">
+                  <option value="date-desc">Date ↓</option>
+                  <option value="date-asc">Date ↑</option>
+                  <option value="name-asc">Name A–Z</option>
+                  <option value="amount-desc">Amount ↓</option>
+                </select>
+                <span class="table-count" id="paymentsCount">0 entries</span>
+              </div>
             </div>
             <div class="table-scroll">
               <table class="data-table" id="paymentsTable">
@@ -398,19 +395,19 @@
             <div class="form-card-header">NEW RECEIPT ENTRY</div>
             <div class="form-grid">
               <div class="form-group">
-                <label>Received From</label>
+                <label>Received From <span class="req">*</span></label>
                 <input type="text" id="receiptFrom" placeholder="e.g. Customer / Debtor"/>
               </div>
               <div class="form-group">
-                <label>Amount (PKR)</label>
+                <label>Amount (PKR) <span class="req">*</span></label>
                 <input type="number" id="receiptAmount" placeholder="0.00"/>
               </div>
               <div class="form-group">
-                <label>Purpose</label>
+                <label>Purpose <span class="field-hint">(optional)</span></label>
                 <input type="text" id="receiptPurpose" placeholder="e.g. Invoice #5678 Payment"/>
               </div>
               <div class="form-group">
-                <label>Date</label>
+                <label>Date <span class="req">*</span></label>
                 <input type="date" id="receiptDate"/>
               </div>
               <div class="form-group form-actions">
@@ -422,7 +419,15 @@
           <div class="table-card">
             <div class="table-card-header">
               <span>ALL RECEIPT RECORDS</span>
-              <span class="table-count" id="receiptsCount">0 entries</span>
+              <div class="header-controls">
+                <select class="filter-select" id="receiptsSortField" onchange="renderReceiptsTable()">
+                  <option value="date-desc">Date ↓</option>
+                  <option value="date-asc">Date ↑</option>
+                  <option value="name-asc">Name A–Z</option>
+                  <option value="amount-desc">Amount ↓</option>
+                </select>
+                <span class="table-count" id="receiptsCount">0 entries</span>
+              </div>
             </div>
             <div class="table-scroll">
               <table class="data-table" id="receiptsTable">
@@ -435,17 +440,24 @@
           </div>
         </section>
 
-        <!-- ===== LEDGER ===== -->
+        <!-- ===== GENERAL LEDGER ===== -->
         <section class="section" id="section-ledger">
           <div class="section-header">
-            <h1 class="section-title">Ledger</h1>
-            <p class="section-sub">General ledger — debits, credits and running balances</p>
+            <h1 class="section-title">General Ledger</h1>
+            <p class="section-sub">All transactions with running balance — double-entry bookkeeping</p>
           </div>
           <div class="ledger-summary" id="ledgerSummary"></div>
           <div class="table-card">
             <div class="table-card-header">
               <span>GENERAL LEDGER</span>
-              <span class="table-count" id="ledgerCount">0 entries</span>
+              <div class="header-controls">
+                <select class="filter-select" id="ledgerSortField" onchange="renderLedger()">
+                  <option value="date-asc">Date ↑ (oldest first)</option>
+                  <option value="date-desc">Date ↓ (newest first)</option>
+                  <option value="name-asc">Party A–Z</option>
+                </select>
+                <span class="table-count" id="ledgerCount">0 entries</span>
+              </div>
             </div>
             <div class="table-scroll">
               <table class="data-table" id="ledgerTable">
@@ -463,11 +475,40 @@
           </div>
         </section>
 
+        <!-- ===== PARTY LEDGER ===== -->
+        <section class="section" id="section-party-ledger">
+          <div class="section-header">
+            <h1 class="section-title">Party Ledgers</h1>
+            <p class="section-sub">Individual account ledger per customer or supplier — debit/credit history and balance</p>
+          </div>
+          <div class="party-selector-bar">
+            <div class="form-group" style="min-width:260px">
+              <label>Select Party</label>
+              <select id="partySelect" onchange="renderPartyLedger()">
+                <option value="">-- Select a Party --</option>
+              </select>
+            </div>
+            <div class="party-type-pills" id="partyTypePills"></div>
+          </div>
+          <div id="partyLedgerContent">
+            <div class="empty-state">Select a party above to view their individual ledger</div>
+          </div>
+        </section>
+
+        <!-- ===== TRIAL BALANCE ===== -->
+        <section class="section" id="section-trial-balance">
+          <div class="section-header">
+            <h1 class="section-title">Trial Balance</h1>
+            <p class="section-sub">Closing balances of all accounts — total debits must equal total credits</p>
+          </div>
+          <div id="trialBalanceContent"></div>
+        </section>
+
         <!-- ===== INVENTORY ===== -->
         <section class="section" id="section-inventory">
           <div class="section-header">
             <h1 class="section-title">Fabric Inventory</h1>
-            <p class="section-sub">Meters purchased vs sold — live stock position per fabric type</p>
+            <p class="section-sub">Meters purchased vs sold — live stock position per fabric type. Click any card for details.</p>
           </div>
           <div class="inventory-grid" id="inventoryGrid"></div>
           <div class="table-card" style="margin-top:24px">
@@ -479,7 +520,7 @@
                     <th>Fabric Type</th>
                     <th>Purchased (m)</th><th>Sold (m)</th><th>Stock Left (m)</th>
                     <th>Buy Avg (Rs/m)</th><th>Sell Avg (Rs/m)</th>
-                    <th>Margin (Rs/m)</th><th>Status</th>
+                    <th>Margin (Rs/m)</th><th>Status</th><th>Details</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -520,7 +561,33 @@
 
       </main>
     </div>
-  </div><!-- end app-shell -->
+  </div>
+
+  <!-- INVOICE MODAL -->
+  <div class="modal-overlay" id="invoiceModal" onclick="closeInvoiceModal(event)">
+    <div class="invoice-modal-box" id="invoiceBox">
+      <div class="invoice-modal-header">
+        <span>SALES INVOICE PREVIEW</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" onclick="downloadInvoice()">⬇ DOWNLOAD</button>
+          <button class="btn-secondary" onclick="printInvoice()">⎙ PRINT</button>
+          <button class="btn-secondary" onclick="document.getElementById('invoiceModal').style.display='none'">✕ CLOSE</button>
+        </div>
+      </div>
+      <div id="invoicePrintArea"></div>
+    </div>
+  </div>
+
+  <!-- ITEM DETAIL MODAL -->
+  <div class="detail-modal-overlay" id="itemDetailModal">
+    <div class="detail-modal-box">
+      <div class="detail-modal-header">
+        <span id="detailModalTitle">ITEM DETAILS</span>
+        <button class="btn-secondary" onclick="closeItemDetail()" style="padding:4px 12px;font-size:11px">✕ CLOSE</button>
+      </div>
+      <div class="detail-modal-body" id="detailModalBody"></div>
+    </div>
+  </div>
 
   <div class="toast" id="toast"></div>
   <script src="script.js"></script>
